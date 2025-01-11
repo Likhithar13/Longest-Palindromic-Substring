@@ -1,0 +1,26 @@
+char* addBinary(char* a, char* b) {
+    int lenA = strlen(a);
+    int lenB = strlen(b);
+    int maxLength = (lenA > lenB) ? lenA : lenB;
+    char* result = (char*)malloc(maxLength + 2); // +2 for carry and null terminator
+    result[maxLength + 1] = '\0'; // Null-terminate the result string
+
+    int i = lenA - 1, j = lenB - 1, k = maxLength, carry = 0;
+
+    while (i >= 0 || j >= 0 || carry) {
+        int bitA = (i >= 0) ? a[i--] - '0' : 0;
+        int bitB = (j >= 0) ? b[j--] - '0' : 0;
+
+        int sum = bitA + bitB + carry;
+        result[k--] = (sum % 2) + '0'; // Store the current bit
+        carry = sum / 2;              // Update carry
+    }
+
+    // If there's leftover carry, include it at the start
+    if (carry) {
+        result[k] = '1';
+        return result + k; // Return the result from the start of the valid portion
+    } else {
+        return result + k + 1; // Skip the leading unused memory
+    }
+}
