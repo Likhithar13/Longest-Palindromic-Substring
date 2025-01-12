@@ -1,0 +1,40 @@
+int compare(const void *a, const void *b) {
+    return (*(int*)a - *(int*)b);
+}
+
+int threeSumClosest(int* nums, int numsSize, int target) {
+    // Sort the array to use two pointers technique
+    qsort(nums, numsSize, sizeof(int), compare);
+    
+    int closestSum = nums[0] + nums[1] + nums[2]; // Initial closest sum
+    for (int i = 0; i < numsSize - 2; i++) {
+        // Skip duplicate values for i
+        if (i > 0 && nums[i] == nums[i - 1]) continue;
+        
+        int left = i + 1;
+        int right = numsSize - 1;
+        
+        while (left < right) {
+            int currentSum = nums[i] + nums[left] + nums[right];
+            
+            // Update the closest sum if we find a closer sum
+            if (abs(currentSum - target) < abs(closestSum - target)) {
+                closestSum = currentSum;
+            }
+            
+            // If the current sum is exactly equal to the target, return it
+            if (currentSum == target) {
+                return currentSum;
+            }
+            
+            // Move the left or right pointer to get closer to the target
+            if (currentSum < target) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+    }
+    
+    return closestSum;
+}
