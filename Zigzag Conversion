@@ -1,0 +1,27 @@
+char* convert(char* s, int numRows) {
+if (numRows == 1 || numRows >= strlen(s)) {
+        return strdup(s); // No zigzagging needed
+    }
+
+    int len = strlen(s);
+    char* result = (char*)malloc((len + 1) * sizeof(char)); // Allocate space for result
+    int index = 0;
+    int cycleLen = 2 * numRows - 2; // Number of characters in one zigzag cycle
+
+    // Iterate through rows
+    for (int row = 0; row < numRows; row++) {
+        for (int j = row; j < len; j += cycleLen) {
+            result[index++] = s[j]; // Add the character in the current row
+
+            // Handle the diagonal elements for the middle rows
+            int diagonal = j + cycleLen - 2 * row;
+            if (row != 0 && row != numRows - 1 && diagonal < len) {
+                result[index++] = s[diagonal];
+            }
+        }
+    }
+
+    result[index] = '\0'; // Null-terminate the result
+    return result;
+}
+    
