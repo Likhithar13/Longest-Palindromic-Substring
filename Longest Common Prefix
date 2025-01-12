@@ -1,0 +1,28 @@
+char* longestCommonPrefix(char** strs, int strsSize) {
+    // If the input array is empty, return an empty string
+    if (strsSize == 0) {
+        return "";
+    }
+
+    // Start with the first string as the initial prefix
+    char* prefix = strs[0];
+
+    // Iterate through the rest of the strings in the array
+    for (int i = 1; i < strsSize; i++) {
+        // Compare the current prefix with the next string
+        int j = 0;
+        while (prefix[j] != '\0' && strs[i][j] != '\0' && prefix[j] == strs[i][j]) {
+            j++;
+        }
+        // Update the prefix to the common part found so far
+        prefix[j] = '\0';
+        
+        // If at any point the prefix becomes empty, return it immediately
+        if (prefix[0] == '\0') {
+            return "";
+        }
+    }
+
+    // Return the longest common prefix
+    return prefix;
+}
