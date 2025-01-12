@@ -1,0 +1,52 @@
+#include <stdio.h>
+struct ListNode* removeNthFromEnd(struct ListNode* head, int n) {
+    struct ListNode *dummy = (struct ListNode*)malloc(sizeof(struct ListNode));
+    dummy->next = head;
+    
+    struct ListNode *first = dummy;
+    struct ListNode *second = dummy;
+    
+    // Move the first pointer n steps ahead
+    for (int i = 1; i <= n + 1; i++) {
+        first = first->next;
+    }
+    
+    // Move both first and second pointers one step at a time
+    while (first != NULL) {
+        first = first->next;
+        second = second->next;
+    }
+    
+    // Remove the nth node from the end
+    struct ListNode *toDelete = second->next;
+    second->next = second->next->next;
+    
+    // Free the memory of the deleted node
+    free(toDelete);
+    
+    struct ListNode *newHead = dummy->next;
+    free(dummy);  // Free the dummy node
+    return newHead;
+}
+
+// Function to create a new node with a given value
+struct ListNode* createNode(int val) {
+    struct ListNode *newNode = (struct ListNode*)malloc(sizeof(struct ListNode));
+    newNode->val = val;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// Function to print the list
+void printList(struct ListNode* head) {
+    struct ListNode* current = head;
+    while (current != NULL) {
+        printf("%d", current->val);
+        if (current->next != NULL) {
+            printf(" -> ");
+        }
+        current = current->next;
+    }
+    printf("\n");
+}
+
